@@ -5,7 +5,7 @@ initialize_game() {
   height=10
   snake_x=$((width / 2))
   snake_y=$((height / 2))
-  snake_dir="right"
+  snake_dir="$input"
   snake_body=("0,$snake_x,$snake_y")
   fruit_x=0
   fruit_y=0
