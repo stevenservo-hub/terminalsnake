@@ -1,5 +1,7 @@
 #!/bin/bash
 
+declare -A scores
+
 initialize_game() {
   width=20
   height=10
@@ -10,7 +12,22 @@ initialize_game() {
   fruit_x=0
   fruit_y=0
   score=0
+  load_high_score
   generate_fruit
+}
+
+load_high_score() {
+  if [[ -n "${scores[high_score]}" ]]; then
+    high_score=${scores[high_score]}
+  else
+    high_score=0
+  fi
+}
+
+save_high_score() {
+  if ((score > high_score)); then
+    scores[high_score]=$score
+  fi
 }
 
 generate_fruit() {
@@ -29,7 +46,9 @@ check_collision() {
 }
 
 game_over_prompt() {
+  save_high_score
   echo "Game Over! Your score is $score"
+  echo "High Score: $high_score"
   sleep 1  # Sleep for 1 second
   # Ignore any input during sleep
   read -t 1 -n 1000 -s
@@ -80,6 +99,7 @@ while true; do
   done
 
   echo "Score: $score"
+  echo "High Score: $high_score"
 
   read -s -t 0.1 -n 1 input
 
